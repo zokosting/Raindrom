@@ -2,36 +2,46 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Redirigiendo a Raindrop Aleatorio</title>
-    <style>body { font-family: sans-serif; text-align: center; padding-top: 50px; }</style>
-</head>
-<body>
-    <h1>Cargando tu Raindrop aleatorio...</h1>
-    <p>Si no eres redirigido, por favor verifica tu conexión.</p>
-
+    <title>Raindroms...</title>
+    <style>
+        body { 
+            background: #000; 
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+    
     <script>
-        // 1. Obtener la URL del archivo JSON generado por la GitHub Action
+        // La ejecución temprana en el <head> ayuda a la velocidad.
         fetch('random_url.json')
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('No se pudo cargar el archivo random_url.json');
+                    // Si falla, al menos intentamos reportarlo
+                    console.error('No se pudo cargar el archivo random_url.json');
+                    throw new Error('Carga fallida');
                 }
                 return response.json();
             })
             .then(data => {
                 const randomUrl = data.url;
                 if (randomUrl) {
-                    // 2. Redirigir a la URL del elemento aleatorio
+                    // Redirección inmediata
                     window.location.replace(randomUrl); 
-                    // window.location.replace() es mejor para redirecciones que window.location.href
                 } else {
-                    document.body.innerHTML = '<h1>Error: URL no encontrada en el archivo.</h1>';
+                    // Si el archivo JSON está malformado
+                    console.error('Error: URL no encontrada en el archivo.');
+                    window.location.replace('/'); // Redirecciona a la raíz o a una página de error
                 }
             })
             .catch(error => {
+                // Si la redirección falla por completo, puedes dirigir a una URL de fallback
                 console.error('Hubo un error al obtener la URL:', error);
-                document.body.innerHTML = `<h1>Error de carga: ${error.message}</h1><p>Inténtalo más tarde.</p>`;
+                // Opcionalmente, aquí podrías redirigir a un Raindrop predeterminado.
+                // window.location.replace('https://fallback.url'); 
             });
     </script>
-</body>
+</head>
+<body>
+    </body>
 </html>
