@@ -1,9 +1,4 @@
 {
-  "name": "raindrop-random-generator",
-  "version": "1.0.0",
-  "description": "Script to fetch a random Raindrop and update a static file.",
-  "main": "fetchRandomRaindrop.js",
-  "dependencies": {
-    "node-fetch": "^2.6.1"
-  }
+  "url": "https://help.raindrop.io/bookmarks",
+  "timestamp": "2025-11-15T00:00:00Z"
 }
