@@ -2,19 +2,22 @@ name: Actualizar Raindrop Aleatorio
 
 on:
   schedule:
-    # 1) Se ejecuta automáticamente cada 10 minutos
     - cron: '*/10 * * * *' 
   workflow_dispatch: 
 
 jobs:
   update:
     runs-on: ubuntu-latest
+    
+    # SOLUCIÓN 1: Añadir permisos de escritura para el token
+    permissions:
+      contents: write 
+      
     steps:
       - name: Checkout del código (Usando la rama principal)
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          # 1) Cambiado de 'Raindrop' a 'main'
           ref: main 
           
       - name: Configurar Node.js
@@ -34,4 +37,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Actualizar Raindrop aleatorio
-          files: random_url.json
+          # SOLUCIÓN 2: Renombrar 'files' a 'file_pattern'
+          file_pattern: random_url.json
