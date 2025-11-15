@@ -5,7 +5,7 @@
     <title>Raindroms...</title>
     <style>
         body { 
-            background: #000; 
+            background: #000;
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -13,35 +13,34 @@
     </style>
     
     <script>
-        // La ejecución temprana en el <head> ayuda a la velocidad.
         fetch('random_url.json')
             .then(response => {
                 if (!response.ok) {
-                    // Si falla, al menos intentamos reportarlo
                     console.error('No se pudo cargar el archivo random_url.json');
                     throw new Error('Carga fallida');
                 }
                 return response.json();
             })
             .then(data => {
+                // Establece el título de la página
+                if (data.title) {
+                    document.title = data.title; 
+                }
+                
                 const randomUrl = data.url;
                 if (randomUrl) {
                     // Redirección inmediata
                     window.location.replace(randomUrl); 
                 } else {
-                    // Si el archivo JSON está malformado
                     console.error('Error: URL no encontrada en el archivo.');
                     window.location.replace('/'); // Redirecciona a la raíz o a una página de error
                 }
             })
             .catch(error => {
-                // Si la redirección falla por completo, puedes dirigir a una URL de fallback
                 console.error('Hubo un error al obtener la URL:', error);
-                // Opcionalmente, aquí podrías redirigir a un Raindrop predeterminado.
-                // window.location.replace('https://fallback.url'); 
             });
     </script>
 </head>
 <body>
-    </body>
+</body>
 </html>
